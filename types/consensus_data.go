@@ -121,8 +121,24 @@ func (cid *ConsensusData) Validate() error {
 			return err
 		}
 	case BNRoleProposer:
-		_, _, err := cid.GetBlockRoot()
-		return err
+		var err1, err2 error
+		switch cid.Version {
+		case spec.DataVersionBellatrix:
+			_, err1 = cid.GetBellatrixBlockData()
+			_, err2 = cid.GetBellatrixBlindedBlockData()
+		case spec.DataVersionCapella:
+			_, err1 = cid.GetCapellaBlockData()
+			_, err2 = cid.GetCapellaBlindedBlockData()
+		default:
+			return errors.New("invalid block data")
+		}
+
+		if err1 != nil && err2 != nil {
+			return err1
+		}
+		if err1 == nil && err2 == nil {
+			return errors.New("no beacon data")
+		}
 	case BNRoleSyncCommittee:
 		return nil
 	case BNRoleSyncCommitteeContribution:

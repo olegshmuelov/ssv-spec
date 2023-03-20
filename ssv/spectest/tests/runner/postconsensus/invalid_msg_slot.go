@@ -1,15 +1,14 @@
 package postconsensus
 
 import (
-	"github.com/attestantio/go-eth2-client/spec"
 	"github.com/bloxapp/ssv-spec/qbft"
 	"github.com/bloxapp/ssv-spec/ssv/spectest/tests"
 	"github.com/bloxapp/ssv-spec/types"
 	"github.com/bloxapp/ssv-spec/types/testingutils"
 )
 
-// InValidMessageSlot tests a valid SignedPartialSignatureMessage with an invalid msg slot
-func InValidMessageSlot() *tests.MultiMsgProcessingSpecTest {
+// InvalidMessageSlot tests a valid SignedPartialSignatureMessage with an invalid msg slot
+func InvalidMessageSlot() *tests.MultiMsgProcessingSpecTest {
 	ks := testingutils.Testing4SharesSet()
 
 	invalidateSlot := func(msg *types.SignedPartialSignatureMessage) *types.SignedPartialSignatureMessage {
@@ -18,7 +17,7 @@ func InValidMessageSlot() *tests.MultiMsgProcessingSpecTest {
 	}
 
 	return &tests.MultiMsgProcessingSpecTest{
-		Name: "post consensus valid msg",
+		Name: "post consensus invalid msg slot",
 		Tests: []*tests.MsgProcessingSpecTest{
 			{
 				Name: "sync committee contribution",
@@ -63,9 +62,9 @@ func InValidMessageSlot() *tests.MultiMsgProcessingSpecTest {
 				),
 				Duty: &testingutils.TestingProposerDuty,
 				Messages: []*types.SSVMessage{
-					testingutils.SSVMsgProposer(nil, invalidateSlot(testingutils.PostConsensusProposerMsg(ks.Shares[1], 1, spec.DataVersionBellatrix))),
+					testingutils.SSVMsgProposer(nil, invalidateSlot(testingutils.PostConsensusProposerMsg(ks.Shares[1], 1))),
 				},
-				PostDutyRunnerStateRoot: "d1aa009a3bff79cee4ee9bedd565d0c780ebd14926a19d1f7ffa02d1efaf08ff",
+				PostDutyRunnerStateRoot: "ff213af6f0bf2350bb37f48021c137dd5552b1c25cb5c6ebd0c1d27debf6080e",
 				OutputMessages:          []*types.SignedPartialSignatureMessage{},
 				BeaconBroadcastedRoots:  []string{},
 				DontStartDuty:           true,
@@ -80,9 +79,9 @@ func InValidMessageSlot() *tests.MultiMsgProcessingSpecTest {
 				),
 				Duty: &testingutils.TestingProposerDuty,
 				Messages: []*types.SSVMessage{
-					testingutils.SSVMsgProposer(nil, invalidateSlot(testingutils.PostConsensusProposerMsg(ks.Shares[1], 1, spec.DataVersionBellatrix))),
+					testingutils.SSVMsgProposer(nil, invalidateSlot(testingutils.PostConsensusProposerMsg(ks.Shares[1], 1))),
 				},
-				PostDutyRunnerStateRoot: "489df86e741833d579260e6fd73971d38ffcffbbe26b1dc952c8536b68146b3f",
+				PostDutyRunnerStateRoot: "9b4524d5100835df4d71d0a1e559acdc33d541c44a746ebda115c5e7f3eaa85a",
 				OutputMessages:          []*types.SignedPartialSignatureMessage{},
 				BeaconBroadcastedRoots:  []string{},
 				DontStartDuty:           true,

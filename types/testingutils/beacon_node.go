@@ -2,14 +2,11 @@ package testingutils
 
 import (
 	"encoding/hex"
-	"github.com/attestantio/go-eth2-client/api"
 	v1 "github.com/attestantio/go-eth2-client/api/v1"
 	bellatrix2 "github.com/attestantio/go-eth2-client/api/v1/bellatrix"
-	capella2 "github.com/attestantio/go-eth2-client/api/v1/capella"
 	spec2 "github.com/attestantio/go-eth2-client/spec"
 	altair "github.com/attestantio/go-eth2-client/spec/altair"
 	"github.com/attestantio/go-eth2-client/spec/bellatrix"
-	"github.com/attestantio/go-eth2-client/spec/capella"
 	spec "github.com/attestantio/go-eth2-client/spec/phase0"
 	"github.com/bloxapp/ssv-spec/types"
 	ssz "github.com/ferranbt/fastssz"
@@ -79,38 +76,7 @@ var Transactions = func() []bellatrix.Transaction {
 	return res.Transactions
 }()
 
-var TestingPhase0BeaconBlock = &spec.BeaconBlock{
-	Slot:          12,
-	ProposerIndex: 10,
-	ParentRoot:    spec.Root{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2},
-	StateRoot:     spec.Root{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2},
-	Body: &spec.BeaconBlockBody{
-		RANDAOReveal: spec.BLSSignature{},
-		ETH1Data: &spec.ETH1Data{
-			DepositRoot:  spec.Root{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2},
-			DepositCount: 100,
-			BlockHash:    []byte{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2},
-		},
-		Graffiti:          [32]byte{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2},
-		ProposerSlashings: []*spec.ProposerSlashing{},
-		AttesterSlashings: []*spec.AttesterSlashing{},
-		Attestations: []*spec.Attestation{
-			{
-				AggregationBits: bitfield.NewBitlist(122),
-				Data:            TestingAttestationData,
-				Signature:       spec.BLSSignature{},
-			},
-		},
-		Deposits:       nil,
-		VoluntaryExits: nil,
-	},
-}
-var TestingPhase0BeaconBlockBytes = func() []byte {
-	ret, _ := TestingPhase0BeaconBlock.MarshalSSZ()
-	return ret
-}()
-
-var TestingBellatrixBeaconBlock = &bellatrix.BeaconBlock{
+var TestingBeaconBlock = &bellatrix.BeaconBlock{
 	Slot:          12,
 	ProposerIndex: 10,
 	ParentRoot:    spec.Root{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2},
@@ -155,13 +121,13 @@ var TestingBellatrixBeaconBlock = &bellatrix.BeaconBlock{
 		},
 	},
 }
-var TestingBellatrixBeaconBlockBytes = func() []byte {
-	ret, _ := TestingBellatrixBeaconBlock.MarshalSSZ()
+var TestingBeaconBlockBytes = func() []byte {
+	ret, _ := TestingBeaconBlock.MarshalSSZ()
 	return ret
 }()
 
-var TestingBellatrixBlindedBeaconBlock = func() *bellatrix2.BlindedBeaconBlock {
-	fullBlk := TestingBellatrixBeaconBlock
+var TestingBlindedBeaconBlock = func() *bellatrix2.BlindedBeaconBlock {
+	fullBlk := TestingBeaconBlock
 	txRoot, _ := types.SSZTransactions(fullBlk.Body.ExecutionPayload.Transactions).HashTreeRoot()
 	ret := &bellatrix2.BlindedBeaconBlock{
 		Slot:          fullBlk.Slot,
@@ -199,111 +165,13 @@ var TestingBellatrixBlindedBeaconBlock = func() *bellatrix2.BlindedBeaconBlock {
 
 	return ret
 }()
-var TestingBellatrixBlindedBeaconBlockBytes = func() []byte {
-	ret, _ := TestingBellatrixBlindedBeaconBlock.MarshalSSZ()
-	return ret
-}()
-
-var TestingCapellaBeaconBlock = &capella.BeaconBlock{
-	Slot:          12,
-	ProposerIndex: 10,
-	ParentRoot:    spec.Root{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2},
-	StateRoot:     spec.Root{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2},
-	Body: &capella.BeaconBlockBody{
-		RANDAOReveal: spec.BLSSignature{},
-		ETH1Data: &spec.ETH1Data{
-			DepositRoot:  spec.Root{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2},
-			DepositCount: 100,
-			BlockHash:    []byte{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2},
-		},
-		Graffiti:          [32]byte{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2},
-		ProposerSlashings: []*spec.ProposerSlashing{},
-		AttesterSlashings: []*spec.AttesterSlashing{},
-		Attestations: []*spec.Attestation{
-			{
-				AggregationBits: bitfield.NewBitlist(122),
-				Data:            TestingAttestationData,
-				Signature:       spec.BLSSignature{},
-			},
-		},
-		Deposits:       []*spec.Deposit{},
-		VoluntaryExits: []*spec.SignedVoluntaryExit{},
-		SyncAggregate: &altair.SyncAggregate{
-			SyncCommitteeBits:      bitfield.NewBitvector512(),
-			SyncCommitteeSignature: spec.BLSSignature{},
-		},
-		ExecutionPayload: &capella.ExecutionPayload{
-			ParentHash:    spec.Hash32{},
-			FeeRecipient:  bellatrix.ExecutionAddress{},
-			StateRoot:     spec.Hash32{},
-			ReceiptsRoot:  spec.Hash32{},
-			LogsBloom:     [256]byte{},
-			PrevRandao:    [32]byte{},
-			BlockNumber:   100,
-			GasLimit:      1000000,
-			GasUsed:       800000,
-			Timestamp:     123456789,
-			BaseFeePerGas: [32]byte{},
-			BlockHash:     spec.Hash32{},
-			Transactions:  Transactions,
-			Withdrawals:   []*capella.Withdrawal{},
-		},
-		BLSToExecutionChanges: []*capella.SignedBLSToExecutionChange{},
-	},
-}
-var TestingCapellaBeaconBlockBytes = func() []byte {
-	ret, _ := TestingCapellaBeaconBlock.MarshalSSZ()
-	return ret
-}()
-
-var TestingCapellaBlindedBeaconBlock = func() *capella2.BlindedBeaconBlock {
-	fullBlk := TestingCapellaBeaconBlock
-	txRoot, _ := types.SSZTransactions(fullBlk.Body.ExecutionPayload.Transactions).HashTreeRoot()
-	withdrawalsRoot, _ := types.SSZWithdrawals(fullBlk.Body.ExecutionPayload.Withdrawals).HashTreeRoot()
-	ret := &capella2.BlindedBeaconBlock{
-		Slot:          fullBlk.Slot,
-		ProposerIndex: fullBlk.ProposerIndex,
-		ParentRoot:    fullBlk.ParentRoot,
-		StateRoot:     fullBlk.StateRoot,
-		Body: &capella2.BlindedBeaconBlockBody{
-			RANDAOReveal:      fullBlk.Body.RANDAOReveal,
-			ETH1Data:          fullBlk.Body.ETH1Data,
-			Graffiti:          fullBlk.Body.Graffiti,
-			ProposerSlashings: fullBlk.Body.ProposerSlashings,
-			AttesterSlashings: fullBlk.Body.AttesterSlashings,
-			Attestations:      fullBlk.Body.Attestations,
-			Deposits:          fullBlk.Body.Deposits,
-			VoluntaryExits:    fullBlk.Body.VoluntaryExits,
-			SyncAggregate:     fullBlk.Body.SyncAggregate,
-			ExecutionPayloadHeader: &capella.ExecutionPayloadHeader{
-				ParentHash:       fullBlk.Body.ExecutionPayload.ParentHash,
-				FeeRecipient:     fullBlk.Body.ExecutionPayload.FeeRecipient,
-				StateRoot:        fullBlk.Body.ExecutionPayload.StateRoot,
-				ReceiptsRoot:     fullBlk.Body.ExecutionPayload.ReceiptsRoot,
-				LogsBloom:        fullBlk.Body.ExecutionPayload.LogsBloom,
-				PrevRandao:       fullBlk.Body.ExecutionPayload.PrevRandao,
-				BlockNumber:      fullBlk.Body.ExecutionPayload.BlockNumber,
-				GasLimit:         fullBlk.Body.ExecutionPayload.GasLimit,
-				GasUsed:          fullBlk.Body.ExecutionPayload.GasUsed,
-				Timestamp:        fullBlk.Body.ExecutionPayload.Timestamp,
-				ExtraData:        fullBlk.Body.ExecutionPayload.ExtraData,
-				BaseFeePerGas:    fullBlk.Body.ExecutionPayload.BaseFeePerGas,
-				BlockHash:        fullBlk.Body.ExecutionPayload.BlockHash,
-				TransactionsRoot: txRoot,
-				WithdrawalsRoot:  withdrawalsRoot,
-			},
-			BLSToExecutionChanges: fullBlk.Body.BLSToExecutionChanges,
-		},
-	}
-	return ret
-}()
-var TestingCapellaBlindedBeaconBlockBytes = func() []byte {
-	ret, _ := TestingBellatrixBlindedBeaconBlock.MarshalSSZ()
+var TestingBlindedBeaconBlockBytes = func() []byte {
+	ret, _ := TestingBlindedBeaconBlock.MarshalSSZ()
 	return ret
 }()
 
 var TestingWrongBeaconBlock = func() *bellatrix.BeaconBlock {
-	byts, err := TestingBellatrixBeaconBlock.MarshalSSZ()
+	byts, err := TestingBeaconBlock.MarshalSSZ()
 	if err != nil {
 		panic(err.Error())
 	}
@@ -315,38 +183,10 @@ var TestingWrongBeaconBlock = func() *bellatrix.BeaconBlock {
 	return ret
 }()
 
-var TestingSignedBeaconBlock = func(ks *TestKeySet, v spec2.DataVersion) ssz.HashRoot {
-	switch v {
-	case spec2.DataVersionBellatrix:
-		return &bellatrix.SignedBeaconBlock{
-			Message:   TestingBellatrixBeaconBlock,
-			Signature: signBeaconObject(TestingBellatrixBeaconBlock, types.DomainProposer, ks),
-		}
-	case spec2.DataVersionCapella:
-		return &capella.SignedBeaconBlock{
-			Message:   TestingCapellaBeaconBlock,
-			Signature: signBeaconObject(TestingCapellaBeaconBlock, types.DomainProposer, ks),
-		}
-	default:
-		return nil
-	}
-}
-
-var TestingSignedBlindedBeaconBlock = func(ks *TestKeySet, v spec2.DataVersion) ssz.HashRoot {
-	switch v {
-	case spec2.DataVersionBellatrix:
-		return &bellatrix2.SignedBlindedBeaconBlock{
-			Message:   TestingBellatrixBlindedBeaconBlock,
-			Signature: signBeaconObject(TestingBellatrixBlindedBeaconBlock, types.DomainProposer, ks),
-		}
-	case spec2.DataVersionCapella:
-		/*return &capella2.SignedBlindedBeaconBlock{ TODO go-eth2-client is not supporting ssz yet
-			Message:   TestingCapellaBlindedBeaconBlock,
-			Signature: signBeaconObject(TestingCapellaBlindedBeaconBlock, types.DomainProposer, ks),
-		}*/
-		return nil
-	default:
-		return nil
+var TestingSignedBeaconBlock = func(ks *TestKeySet) *bellatrix.SignedBeaconBlock {
+	return &bellatrix.SignedBeaconBlock{
+		Message:   TestingBeaconBlock,
+		Signature: signBeaconObject(TestingBeaconBlock, types.DomainProposer, ks),
 	}
 }
 
@@ -505,7 +345,7 @@ var TestingAttesterDuty = types.Duty{
 	ValidatorCommitteeIndex: 11,
 }
 
-var TestingProposerDuty = &types.Duty{
+var TestingProposerDuty = types.Duty{
 	Type:                    types.BNRoleProposer,
 	PubKey:                  TestingValidatorPubKey,
 	Slot:                    TestingDutySlot,
@@ -659,38 +499,24 @@ func (bn *TestingBeaconNode) SubmitAttestation(attestation *spec.Attestation) er
 
 // GetBeaconBlock returns beacon block by the given slot and committee index
 func (bn *TestingBeaconNode) GetBeaconBlock(slot spec.Slot, committeeIndex spec.CommitteeIndex, graffiti, randao []byte) (ssz.Marshaler, spec2.DataVersion, error) {
-	return TestingBellatrixBeaconBlock, spec2.DataVersionBellatrix, nil //Need to support all versions
-	//return TestingCapellaBeaconBlock, spec2.DataVersionCapella, nil //Need to support all versions
+	return TestingBeaconBlock, spec2.DataVersionBellatrix, nil
 }
 
 // SubmitBeaconBlock submit the block to the node
-func (bn *TestingBeaconNode) SubmitBeaconBlock(block *spec2.VersionedSignedBeaconBlock) error {
-	var r [32]byte
-	switch block.Version {
-	case spec2.DataVersionBellatrix:
-		r, _ = block.Bellatrix.HashTreeRoot()
-	case spec2.DataVersionCapella:
-		r, _ = block.Capella.HashTreeRoot()
-	}
+func (bn *TestingBeaconNode) SubmitBeaconBlock(block *bellatrix.SignedBeaconBlock) error {
+	r, _ := block.HashTreeRoot()
 	bn.BroadcastedRoots = append(bn.BroadcastedRoots, r)
 	return nil
 }
 
 // GetBlindedBeaconBlock returns blinded beacon block by the given slot and committee index
 func (bn *TestingBeaconNode) GetBlindedBeaconBlock(slot spec.Slot, committeeIndex spec.CommitteeIndex, graffiti, randao []byte) (ssz.Marshaler, spec2.DataVersion, error) {
-	return TestingBellatrixBlindedBeaconBlock, spec2.DataVersionBellatrix, nil
+	return TestingBlindedBeaconBlock, spec2.DataVersionBellatrix, nil
 }
 
 // SubmitBlindedBeaconBlock submit the blinded block to the node
-func (bn *TestingBeaconNode) SubmitBlindedBeaconBlock(block *api.VersionedSignedBlindedBeaconBlock) error {
-	var r [32]byte
-	switch block.Version {
-	case spec2.DataVersionBellatrix:
-		r, _ = block.Bellatrix.HashTreeRoot()
-	case spec2.DataVersionCapella:
-		//r, _ = block.Capella.HashTreeRoot()
-		// TODO no hash for blinded capella yet
-	}
+func (bn *TestingBeaconNode) SubmitBlindedBeaconBlock(block *bellatrix2.SignedBlindedBeaconBlock) error {
+	r, _ := block.HashTreeRoot()
 	bn.BroadcastedRoots = append(bn.BroadcastedRoots, r)
 	return nil
 }
