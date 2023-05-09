@@ -4,7 +4,6 @@ import (
 	"github.com/attestantio/go-eth2-client/spec"
 
 	"github.com/bloxapp/ssv-spec/qbft"
-	qbftcomparable "github.com/bloxapp/ssv-spec/qbft/spectest/comparable"
 	"github.com/bloxapp/ssv-spec/ssv"
 	ssvcomparable "github.com/bloxapp/ssv-spec/ssv/spectest/comparable"
 	"github.com/bloxapp/ssv-spec/types"
@@ -51,7 +50,7 @@ func fullHappyFlowSyncCommitteeContributionSC() *typescomparable.StateComparison
 					DecidedValue:      testingutils.TestSyncCommitteeContributionConsensusDataByts,
 				},
 			}
-			qbftcomparable.SetMessages(
+			typescomparable.SetMessages(
 				ret.GetBaseRunner().State.RunningInstance,
 				testingutils.SSVDecidingMsgs(testingutils.TestSyncCommitteeContributionConsensusData, ks, types.BNRoleSyncCommitteeContribution)[3:10],
 			)
@@ -100,7 +99,7 @@ func fullHappyFlowSyncCommitteeSC() *typescomparable.StateComparison {
 					DecidedValue:      testingutils.TestSyncCommitteeConsensusDataByts,
 				},
 			}
-			qbftcomparable.SetMessages(
+			typescomparable.SetMessages(
 				ret.GetBaseRunner().State.RunningInstance,
 				testingutils.SSVDecidingMsgs(testingutils.TestSyncCommitteeConsensusData, ks, types.BNRoleSyncCommittee)[0:7],
 			)
@@ -149,7 +148,7 @@ func fullHappyFlowAggregatorSC() *typescomparable.StateComparison {
 					DecidedValue:      testingutils.TestAggregatorConsensusDataByts,
 				},
 			}
-			qbftcomparable.SetMessages(
+			typescomparable.SetMessages(
 				ret.GetBaseRunner().State.RunningInstance,
 				testingutils.SSVDecidingMsgs(testingutils.TestAggregatorConsensusData, ks, types.BNRoleAggregator)[3:10],
 			)
@@ -198,7 +197,7 @@ func fullHappyFlowProposerSC() *typescomparable.StateComparison {
 					DecidedValue:      testingutils.TestProposerConsensusDataByts,
 				},
 			}
-			qbftcomparable.SetMessages(
+			typescomparable.SetMessages(
 				ret.GetBaseRunner().State.RunningInstance,
 				testingutils.SSVDecidingMsgs(testingutils.TestProposerConsensusData, ks, types.BNRoleProposer)[3:10],
 			)
@@ -247,7 +246,7 @@ func fullHappyFlowBlindedProposerSC() *typescomparable.StateComparison {
 					DecidedValue:      testingutils.TestProposerBlindedBlockConsensusDataByts,
 				},
 			}
-			qbftcomparable.SetMessages(
+			typescomparable.SetMessages(
 				ret.GetBaseRunner().State.RunningInstance,
 				testingutils.SSVDecidingMsgs(testingutils.TestProposerBlindedBlockConsensusData, ks, types.BNRoleProposer)[3:10],
 			)
@@ -296,7 +295,7 @@ func fullHappyFlowAttesterSC() *typescomparable.StateComparison {
 					DecidedValue:      testingutils.TestAttesterConsensusDataByts,
 				},
 			}
-			qbftcomparable.SetMessages(
+			typescomparable.SetMessages(
 				ret.GetBaseRunner().State.RunningInstance,
 				testingutils.SSVDecidingMsgs(testingutils.TestAttesterConsensusData, ks, types.BNRoleAttester)[0:7],
 			)
