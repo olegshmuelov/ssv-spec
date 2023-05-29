@@ -66,7 +66,7 @@ func LateRoundChangePastInstance() tests.SpecTest {
 
 func lateRoundChangePastInstanceStateComparison(height qbft.Height, lateMsg *qbft.SignedMessage) *comparable.StateComparison {
 	ks := testingutils.Testing4SharesSet()
-	allMsgs := testingutils.ExpectedDecidingMsgsForHeightWithRoot(testingutils.TestingQBFTRootData, testingutils.TestingQBFTFullData, testingutils.TestingIdentifier, 5, ks)
+	allMsgs := testingutils.ExpectedDecidingMsgsForHeightWithRoot(testingutils.TestingQBFTRootData, testingutils.TestingQBFTFullData, testingutils.TestingIdentifier, 1, ks)
 	offset := 7 // 7 messages per height (1 propose + 3 prepare + 3 commit)
 
 	contr := testingutils.NewTestingQBFTController(
@@ -77,7 +77,6 @@ func lateRoundChangePastInstanceStateComparison(height qbft.Height, lateMsg *qbf
 
 	for i := 0; i <= int(height); i++ {
 		contr.Height = qbft.Height(i)
-		msgs := allMsgs[offset*i : offset*(i+1)]
 
 		instance := &qbft.Instance{
 			StartValue: []byte{1, 2, 3, 4},
@@ -102,6 +101,7 @@ func lateRoundChangePastInstanceStateComparison(height qbft.Height, lateMsg *qbf
 		instance.State.Decided = true
 		instance.State.DecidedValue = testingutils.TestingQBFTFullData
 
+		msgs := allMsgs[offset*i : offset*(i+1)]
 		comparable.SetSignedMessages(instance, msgs)
 
 		if lateMsg != nil && qbft.Height(i) == lateMsg.Message.Height {
