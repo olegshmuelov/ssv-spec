@@ -12,7 +12,7 @@ import (
 	"github.com/bloxapp/ssv-spec/types/testingutils/comparable"
 )
 
-// futureDecidedSyncCommitteeContributionSC returns state with instance decided for height 2 but no post consensus messages following.
+// futureDecidedSyncCommitteeContributionSC returns runner with 2 stored instances. One undecided and one decided for height 2.
 // This is because we are processing messages for height 2 while height 0 is still running.
 // There are also pre consensus messages that start the new instance.
 func futureDecidedSyncCommitteeContributionSC() *comparable.StateComparison {
@@ -86,7 +86,7 @@ func futureDecidedSyncCommitteeContributionSC() *comparable.StateComparison {
 	}
 }
 
-// futureDecidedSyncCommitteeSC returns state with instance decided for height 2 but no post consensus messages following.
+// futureDecidedSyncCommitteeSC returns runner with 2 stored instances. One undecided and one decided for height 2.
 // // This is because we are processing messages for height 2 while height 0 is still running.
 // // There are no pre consensus messages for this duty.
 func futureDecidedSyncCommitteeSC() *comparable.StateComparison {
@@ -157,7 +157,7 @@ func futureDecidedSyncCommitteeSC() *comparable.StateComparison {
 	}
 }
 
-// futureDecidedAggregatorSC returns state with instance decided for height 2 but no post consensus messages following.
+// futureDecidedAggregatorSC returns runner with 2 stored instances. One undecided and one decided for height 2.
 // This is because we are processing messages for height 2 while height 0 is still running.
 // There are also pre consensus messages that start the new instance.
 func futureDecidedAggregatorSC() *comparable.StateComparison {
@@ -232,7 +232,7 @@ func futureDecidedAggregatorSC() *comparable.StateComparison {
 	}
 }
 
-// futureDecidedAttesterSC returns state with instance decided for height 2 but no post consensus messages following.
+// futureDecidedAttesterSC returns runner with 2 stored instances. One undecided and one decided for height 2.
 // This is because we are processing messages for height 2 while height 0 is still running.
 // There are no pre consensus messages for this duty.
 func futureDecidedAttesterSC() *comparable.StateComparison {
@@ -303,7 +303,7 @@ func futureDecidedAttesterSC() *comparable.StateComparison {
 	}
 }
 
-// futureDecidedProposerSC returns state with instance decided for height 2 but no post consensus messages following.
+// futureDecidedProposerSC returns runner with 2 stored instances. One undecided and one decided for height 2.
 // This is because we are processing messages for height 2 while height 0 is still running.
 // There are also pre consensus messages that start the new instance.
 func futureDecidedProposerSC(version spec.DataVersion) *comparable.StateComparison {
@@ -378,7 +378,7 @@ func futureDecidedProposerSC(version spec.DataVersion) *comparable.StateComparis
 	}
 }
 
-// futureDecidedBlindedProposerSC returns state with instance decided for height 2 but no post consensus messages following.
+// futureDecidedBlindedProposerSC returns runner with 2 stored instances. One undecided and one decided for height 2.
 // This is because we are processing messages for height 2 while height 0 is still running.
 // There are also pre consensus messages that start the new instance.
 func futureDecidedBlindedProposerSC(version spec.DataVersion) *comparable.StateComparison {
