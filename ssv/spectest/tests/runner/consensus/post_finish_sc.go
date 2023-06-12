@@ -75,7 +75,7 @@ func postFinishSyncCommitteeContributionSC() *comparable.StateComparison {
 }
 
 // postFinishSyncCommitteeSC returns finished runner with an extra commit message.
-// // There are post-consensus messages from 3 validators.
+// There are post-consensus messages from 3 validators.
 func postFinishSyncCommitteeSC() *comparable.StateComparison {
 	ks := testingutils.Testing4SharesSet()
 	cd := testingutils.TestSyncCommitteeConsensusData
@@ -138,7 +138,7 @@ func postFinishSyncCommitteeSC() *comparable.StateComparison {
 }
 
 // postFinishAggregatorSC returns finished runner with an extra commit message.
-// // There are pre-consensus messages from 3 validators, and post-consensus messages from 3 validators.
+// There are pre-consensus messages from 3 validators, and post-consensus messages from 3 validators.
 func postFinishAggregatorSC() *comparable.StateComparison {
 	ks := testingutils.Testing4SharesSet()
 	cd := testingutils.TestAggregatorConsensusData
@@ -264,7 +264,7 @@ func postFinishAttesterSC() *comparable.StateComparison {
 }
 
 // postFinishProposerSC returns finished runner with an extra commit message.
-// // There are pre-consensus messages from 3 validators, and post-consensus messages from 3 validators.
+// There are pre-consensus messages from 3 validators, and post-consensus messages from 3 validators.
 func postFinishProposerSC(version spec.DataVersion) *comparable.StateComparison {
 	ks := testingutils.Testing4SharesSet()
 	cd := testingutils.TestProposerConsensusDataV(version)
@@ -327,7 +327,7 @@ func postFinishProposerSC(version spec.DataVersion) *comparable.StateComparison 
 }
 
 // postFinishBlindedProposerSC returns finished runner with an extra commit message.
-// // There are pre-consensus messages from 3 validators, and post-consensus messages from 3 validators.
+// There are pre-consensus messages from 3 validators, and post-consensus messages from 3 validators.
 func postFinishBlindedProposerSC(version spec.DataVersion) *comparable.StateComparison {
 	ks := testingutils.Testing4SharesSet()
 	cd := testingutils.TestProposerBlindedBlockConsensusDataV(version)
