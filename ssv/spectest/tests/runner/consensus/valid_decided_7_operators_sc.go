@@ -215,7 +215,7 @@ func validDecided7OperatorsAttesterSC() *comparable.StateComparison {
 }
 
 // validDecided7OperatorsProposerSC returns a non-finished decided runner upon a valid quorum decided on a value.
-// // There are pre-consensus messages in the container that start the consensus instance.
+// There are pre-consensus messages in the container that start the consensus instance.
 func validDecided7OperatorsProposerSC(version spec.DataVersion) *comparable.StateComparison {
 	ks := testingutils.Testing7SharesSet()
 	cd := testingutils.TestProposerConsensusDataV(version)
