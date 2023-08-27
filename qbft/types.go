@@ -1,6 +1,8 @@
 package qbft
 
 import (
+	"time"
+
 	"github.com/bloxapp/ssv-spec/p2p"
 	"github.com/bloxapp/ssv-spec/types"
 )
@@ -17,7 +19,7 @@ const (
 // Timer is an interface for a round timer, calling the UponRoundTimeout when times out
 type Timer interface {
 	// TimeoutForRound will reset running timer if exists and will start a new timer for a specific round
-	TimeoutForRound(round Round)
+	TimeoutForRound(dutyStartTime time.Time, round Round)
 }
 
 type Syncer interface {

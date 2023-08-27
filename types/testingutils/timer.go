@@ -1,6 +1,10 @@
 package testingutils
 
-import "github.com/bloxapp/ssv-spec/qbft"
+import (
+	"time"
+
+	"github.com/bloxapp/ssv-spec/qbft"
+)
 
 type TimerState struct {
 	Timeouts int
@@ -17,7 +21,7 @@ func NewTestingTimer() qbft.Timer {
 	}
 }
 
-func (t *TestQBFTTimer) TimeoutForRound(round qbft.Round) {
+func (t *TestQBFTTimer) TimeoutForRound(dutyStartTime time.Time, round qbft.Round) {
 	t.State.Timeouts++
 	t.State.Round = round
 }

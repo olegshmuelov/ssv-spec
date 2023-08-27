@@ -1,8 +1,10 @@
 package qbft
 
 import (
-	"github.com/pkg/errors"
 	"time"
+
+	"github.com/attestantio/go-eth2-client/spec/phase0"
+	"github.com/pkg/errors"
 )
 
 var (
@@ -22,7 +24,8 @@ func (i *Instance) UponRoundTimeout() error {
 	defer func() {
 		i.State.Round = newRound
 		i.State.ProposalAcceptedForCurrentRound = nil
-		i.config.GetTimer().TimeoutForRound(i.State.Round)
+		dutyStartTime := time.Unix(i.config.GetBeaconNetwork().EstimatedTimeAtSlot(phase0.Slot(i.State.Height)), 0)
+		i.config.GetTimer().TimeoutForRound(dutyStartTime, i.State.Round)
 	}()
 
 	roundChange, err := CreateRoundChange(i.State, i.config, newRound, i.StartValue)

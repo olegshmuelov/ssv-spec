@@ -24,6 +24,8 @@ type IConfig interface {
 	GetProposerF() ProposerF
 	// GetNetwork returns a p2p Network instance
 	GetNetwork() Network
+	// GetBeaconNetwork returns a beacon Network
+	GetBeaconNetwork() types.BeaconNetwork
 	// GetTimer returns round timer
 	GetTimer() Timer
 }
@@ -36,6 +38,8 @@ type Config struct {
 	ProposerF   ProposerF
 	Network     Network
 	Timer       Timer
+
+	BeaconNetwork types.BeaconNetwork
 }
 
 // GetSigner returns a Signer instance
@@ -66,6 +70,11 @@ func (c *Config) GetProposerF() ProposerF {
 // GetNetwork returns a p2p Network instance
 func (c *Config) GetNetwork() Network {
 	return c.Network
+}
+
+// GetBeaconNetwork returns a beacon Network
+func (c *Config) GetBeaconNetwork() types.BeaconNetwork {
+	return c.BeaconNetwork
 }
 
 // GetTimer returns round timer

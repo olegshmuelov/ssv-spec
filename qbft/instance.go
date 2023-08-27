@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"sync"
+	"time"
 
+	"github.com/attestantio/go-eth2-client/spec/phase0"
 	"github.com/pkg/errors"
 
 	"github.com/bloxapp/ssv-spec/types"
@@ -60,7 +62,8 @@ func (i *Instance) Start(value []byte, height Height) {
 		i.State.Round = FirstRound
 		i.State.Height = height
 
-		i.config.GetTimer().TimeoutForRound(FirstRound)
+		dutyStartTime := time.Unix(i.config.GetBeaconNetwork().EstimatedTimeAtSlot(phase0.Slot(height)), 0)
+		i.config.GetTimer().TimeoutForRound(dutyStartTime, FirstRound)
 
 		// propose if this node is the proposer
 		if proposer(i.State, i.GetConfig(), FirstRound) == i.State.Share.OperatorID {
